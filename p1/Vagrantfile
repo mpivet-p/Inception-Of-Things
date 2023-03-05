@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/bullseye64"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+    vb.cpus = 1
+  end
+
+  config.vm.define "mpivet-pS" do |control|
+    control.vm.hostname = "mpivet-pS"
+    control.vm.network "private_network", ip: "192.168.56.110"
+    control.vm.synced_folder "confs/", "/vagrant", type:"virtualbox"
+    control.vm.provision :shell, path: "scripts/install_S.sh"
+
+    control.vm.provider "virtualbox" do |vb|
+      vb.name = "mpivet-pS"
+    end
+
+  end
+
+  config.vm.define "mpivet-pSW" do |control|
+    control.vm.hostname = "mpivet-pSW"
+    control.vm.network "private_network", ip: "192.168.56.111"
+    control.vm.synced_folder "confs/", "/vagrant", type:"virtualbox"
+    control.vm.provision :shell, path: "scripts/install_SW.sh"
+
+    control.vm.provider "virtualbox" do |vb|
+      vb.name = "mpivet-pSW"
+    end
+
+  end
+
+end
