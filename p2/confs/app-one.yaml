@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-one
+  labels:
+    app: app-one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-one
+  template:
+    metadata:
+      labels:
+        app: app-one
+    spec:
+      containers:
+        - name: app-one
+          image: mpivet-p/flask_app
+          ports:
+          - containerPort: 5000
+          env:
+          - name: POD_NAME
+            value: "pdogdsgodsgods"
+          - name: NODE_INFOS
+            value: "Linux (blabla.x86_64)"
+          - name: APP_NAME
+            value: "App 1"
