@@ -36,12 +36,12 @@ kubectl create ns dev
 #Setting up Argo CD
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+#Enable loadbalance for argocd-server service
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
 #Waiting for argocd-server
 echo -e "\033[1;1mWaiting for deployments/argocd-server status==Ready...\033[0m"
 kubectl wait deployment argocd-server -n argocd --for=condition=Available=True --timeout=600s
-
-#Enable loadbalance for argocd-server service
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
 #Install argocd CLI
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
