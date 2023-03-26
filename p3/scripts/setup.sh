@@ -53,9 +53,7 @@ rm argocd-linux-amd64
 PASSWD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 
 #Write password in file
-touch argo_pass.txt
-chmod 0600 argo_pass.txt
-echo $PASSWD > /root/argo_pass.txt
+echo $PASSWD > ./argo_pass.txt
 
 #Create the app in argocd
 kubectl apply -f ../confs/app.yaml -n argocd
